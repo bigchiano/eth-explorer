@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Blockchain explorer</title>
+</head>
+<body>
+    <table id="blocks" style="width: 100%;">
+        <tr>
+            <th>Number</th>
+            <th>Hash</th>
+            <th>Timestamp</th>
+        </tr>
+    </table>
+
+    <script src="web3.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            let web3 = new Web3('https://mainnet.infura.io')
+            let lastBlock = await web3.eth.getBlockNumber()
+            
+            for(i = 1; i <= 10; i++) {
+                let block = await web3.eth.getBlock(lastBlock - i)
+                printBlock(block)
+            }
+
+            function printBlock (block) {
+                let table = document.querySelector('#blocks'),
+                    row = table.insertRow(-1),
+                    cell1 = row.insertCell(0),
+                    cell2 = row.insertCell(1),
+                    cell3 = row.insertCell(2)
+
+                cell1.innerHTML = block.number
+                cell2.innerHTML = block.hash
+                cell3.innerHTML = block.timestamp
+                
+            }
+        })
+    </script>
+</body>
+</html>
